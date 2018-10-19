@@ -1,0 +1,14 @@
+.bundle
+.git
+.gitignore
+coverage
+log
+node_modules
+public/assets
+vendor/bundle
+.env
+.env.development
+.DS_store
+.byebug_history
+/tmp/*
+!/tmp/.keep
