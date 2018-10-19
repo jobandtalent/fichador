@@ -1,0 +1,112 @@
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - 'bin/**/*'
+    - db/schema.rb
+    - db/migrate/*
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+Rails:
+  Enabled: true
+
+Rails/Delegate:
+  EnforceForPrefixed: false
+
+Documentation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: true
+  Max: 15
+  Exclude:
+    - 'test/**/*'
+
+Metrics/BlockLength:
+  CountComments: false
+  Max: 25
+  Exclude:
+    - 'Rakefile'
+    - 'config/routes.rb'
+    - '**/*.rake'
+    - 'test/**/*'
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+  IgnoreCopDirectives: true
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 10
+  Exclude:
+    - 'test/**/*'
+
+Metrics/ParameterLists:
+  Exclude:
+    - 'test/**/*'
+
+Naming/PredicateName:
+  Enabled: true
+  NamePrefix:
+    - is_
+    - not_
+    - does_
+    - can_
+  NamePrefixBlacklist:
+    - is_
+    - not_
+    - does_
+    - can_
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/RaiseArgs:
+  EnforcedStyle: compact
+
+Style/WordArray:
+  EnforcedStyle: percent
+
+Layout/DotPosition:
+  EnforcedStyle: leading
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/CollectionMethods:
+  Enabled: true
+  PreferredMethods:
+    collect: 'map'
+    collect!: 'map!'
+    inject: 'reduce'
+    detect: 'find'
+    find_all: 'select'
+
+Style/EachWithObject:
+  Enabled: false
+
+Style/GlobalVars:
+  AllowedVariables: [$fog_storage, $redis]
+
+Style/NumericLiterals:
+  Enabled: true
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%r': '{}'
+    '%w': '()'
+    '%W': '()'
+    '%i': '()'
+    '%I': '()'
+
+Style/SignalException:
+  EnforcedStyle: only_raise
+
+Style/SingleLineMethods:
+  AllowIfMethodIsEmpty: false
