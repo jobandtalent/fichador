@@ -1,0 +1,20 @@
+---
+:min_confidence: 1
+:quiet: true
+:run_all_checks: true
+:report_routes: true
+:message_limit: 200
+:table_width: 200
+:rails5: true
+:ignore_file: config/brakeman.ignore
+:debug: false
+:app_path: "."
+:summary_only: false
+:skip_files:
+  - config/database.yml
+:previous_results_json: "test/reports/brakeman.json"
+:output_files:
+  - test/reports/brakeman.json
+  - test/reports/brakeman.html
+  - "/dev/stdout"
+:comparison_output_file: "/dev/stdout"
