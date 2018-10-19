@@ -1,0 +1,17 @@
+FROM node:10.12.0-alpine
+MAINTAINER Jobandtalent Team <backend.team@jobandtalent.com>
+
+LABEL app="workers" stack.binary="node" stack.version="10.alpine"
+
+WORKDIR /app
+
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install --pure-lockfile
+
+COPY . .
+
+ENTRYPOINT ["yarn"]
+CMD ["webpack-dev-server"]
+EXPOSE 8080

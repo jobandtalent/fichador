@@ -2,8 +2,10 @@
 
 require 'test_helper'
 require 'socket'
+require 'support/webpack_helper'
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  include WebpackHelper
   class << self; attr_accessor :host end
 
   def self.resolve_host_address
@@ -31,6 +33,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
             options: driver_options
 
   def setup
+    check_assets_manifest!
     Capybara.server_host = ApplicationSystemTestCase.host
     host! "http://#{Capybara.server_host}"
     super
