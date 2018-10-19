@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+
+AwesomePrint.defaults = {
+  ruby19_syntax: true
+}
+AwesomePrint.irb!
