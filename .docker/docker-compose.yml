@@ -1,0 +1,86 @@
+version: '2.1'
+
+services:
+  gateway:
+    image: nginx:alpine-perl
+    container_name: gateway
+    volumes:
+      - ./services/gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 80:80
+    logging: { options: { max-size: '100k', max-file: '1' } }
+    environment:
+      HOSTNAME: lvh.me
+
+  mailcatcher:
+    build: ./services/mailcatcher
+    logging: { options: { max-size: '100k', max-file: '1' } }
+
+  selenium-server:
+    image: selenium/standalone-chrome:latest
+    container_name: selenium-server
+    volumes:
+      - /dev/shm:/dev/shm
+    logging: { options: { max-size: '100k', max-file: '1' } }
+
+  fichador-app:
+    build:
+      context: ../
+    container_name: fichador-app
+    depends_on:
+      - gateway
+      - fichador-postgres
+      - fichador-webpack
+    logging: { options: { max-size: '100k', max-file: '1' } }
+    environment:
+      APP_NAME: fichador
+      DATABASE_HOST: fichador-postgres
+      SMTP_HOST: mailcatcher
+      SMTP_PORT: 1025
+      PORT: 8080
+      SELENIUM_SERVER_URL: http://selenium-server:4444/wd/hub
+    expose:
+      - 8080
+    volumes:
+      - ../app:/app/app
+      - ../bin:/app/bin
+      - ../config:/app/config
+      - ../db:/app/db
+      - ../lib:/app/lib
+      - ../public:/app/public
+      - ../script:/app/script
+      - ../test:/app/test
+      - ../vendor:/app/vendor
+
+  fichador-postgres:
+    container_name: fichador-postgres
+    image: postgres:10.5-alpine
+    logging: { options: { max-size: '100k', max-file: '1' } }
+
+  fichador-webpack-installer:
+    build:
+      context: ../
+      dockerfile: Dockerfile.jscompile
+    command: ['install']
+    container_name: fichador-webpack-installer
+    logging: { options: { max-size: '100k', max-file: '1' } }
+    volumes:
+      - ./tmp/fichador_node_modules:/app/node_modules
+      - ./tmp/fichador_yarn_cache:/usr/local/share/.cache/yarn/v1
+
+  fichador-webpack:
+    build:
+      context: ../
+      dockerfile: Dockerfile.jscompile
+    command:
+      ['server', '--host', '0.0.0.0', '--port', '8080', '--public', 'fichador-webpack.lvh.me']
+    container_name: fichador-webpack
+    logging: { options: { max-size: '100k', max-file: '1' } }
+    expose:
+      - 8080
+    volumes:
+      - ../app/javascript:/app/app/javascript
+      - ../public:/app/public
+      - ../vendor:/app/vendor
+      - ./tmp/fichador_node_modules:/app/node_modules
+      - ./tmp/fichador_yarn_cache:/usr/local/share/.cache/yarn/v1
