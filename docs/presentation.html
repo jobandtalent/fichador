@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Webpack[er]</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,800,900);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: 'Montserrat';
+      }
+      h1, h2, h3, h4 {
+        font-weight: normal;
+      }
+      h1, h2 {
+        font-weight: 500;
+      }
+      h1 {
+        font-size: 0.5em;
+      }
+      code {
+        background: #e7e8e2;
+        color: #5c6d78;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .main-title .remark-inline-code {
+        background: #4c4c63;
+        color: #f1f6f9;
+        padding: 3px 8px;
+      }
+      .remark-slide-content {
+        color: #9ea7ae;
+      }
+      .remark-slide-content.main-title {
+        background: #4b5965;
+        color: #dfe2e4;
+      }
+      .remark-slide-content.background {
+        text-shadow: 0 0 20px #5e6d79;
+      }
+      .remark-slide-content h1
+      {
+        color: #dee2e4;
+        font-size: 1em;
+        font-weight: 400;
+        line-height: 1em;
+      }
+      .remark-slide-content h2
+      {
+        color: #5c6d78;
+        font-size: 1.5em;
+        font-weight: 500;
+        line-height: 0.8em;
+      }
+      .remark-slide-content.front-page h1 {
+        font-size: 3em;
+        font-weight: 600;
+      }
+      .remark-slide-content.main-title.middle h1 {
+        position: absolute;
+        top: 1em;
+        left: 4em;
+      }
+      .remark-slide-content.main-title h1 {
+        color: #939ba3;
+      }
+      .remark-slide-content.main-title h2
+      {
+        color: #fefefe;
+        font-size: 4em;
+        line-height: 1em;
+        margin: 0;
+      }
+      .remark-slide-content p {
+        margin-top: 0.5em;
+        margin-left: -0.5em;
+      }
+      .remark-slide-content.main-title p {
+        transform: scale(0.95, 1.05);
+        font-size: 1.5em;
+      }
+      .remark-slide-content li {
+        font-size: 1.2em;
+        line-height: 1.5em;
+      }
+      .clear {
+        color: #5e6d79;
+        background: #f1f1f1;
+      }
+      .clear h1, .clear h2 {
+        color: #5e6d79;
+      }
+      .logo {
+        background-color: #3BA7E7;
+        padding-top: 2em;
+        padding-bottom: 1.5em;
+        display: block;
+      }
+      .twitter img {
+        height: 1.5em;
+        vertical-align: middle;
+      }
+      .agenda h2 {
+        color: #fefefe;
+        font-size: 2em !important;
+        padding-top: 1em;
+      }
+      .agenda li {
+        font-family: 'Montserrat';
+        font-size: 1.5em;
+        line-height: 2em;
+      }
+      @media print {
+        .remark-slide-scaler {
+          width: 100% !important;
+          height: 100% !important;
+          transform: scale(1) !important;
+          top: 0 !important;
+          left: 0 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: front-page, center, middle, clear
+
+# Webpack_[er]_
+_(nope, is not a typo, no **er**)_
+
+.logo[![Jobandtalent](images/jobandtalent-eng.png)]
+
+#### German Del Zotto
+.twitter[![@germandz](images/twitter.png) @germandz]
+#### madrid.rb - October 2018
+
+---
+name: agenda
+class: agenda, main-title
+
+# Webpack[er]
+## Agenda
+
+1. Rails + Webpack
+2. Webpacker
+3. Custom Settings
+4. Custom Flows
+5. Webpack + a simple Rails helper
+6. Development Flow
+7. CI
+8. Release
+
+---
+class: main-title, middle
+# Webpack[er]
+## Rails + Webpack
+Because Babel, React & other modern friends.
+
+---
+
+# Webpack[er]
+## Rails + Webpack
+
+### Sprockets was ok, but:
+- JS libraries have evolved
+- distribution of libraries is not "plain JS" anymore
+
+### Webpack offers:
+- different languages compiling/transpiling to Javascript
+- advanced module and bundles management ()
+- smart asset management (tree-shacking, compression, chunking)
+
+---
+class: main-title, middle
+# Webpack[er]
+## Webpacker
+
+---
+
+# Webpack[er]
+## Webpacker
+
+### Before:
+- copying/maintaining js packages in `vendor` directory
+- react-rails, react_on_rails and other gems
+
+### The official solution for Rails:
+- ready out-of-the-box
+- zero-config
+- opinionated about versions and environments
+- great integration into templates (i.e.: erb)
+
+---
+class: main-title, middle
+# Webpack[er]
+## Custom Settings
+Not everyone is developing Basecamp&trade;
+
+---
+
+# Webpack[er]
+## Custom Settings
+
+### Javascript ecosystem is owned by different people:
+- Webpacker config is JS but controlled by Rails code
+- Adding plugins/loaders to webpack
+- Troubleshooting is complicated
+
+### Environments out of the conventions:
+- CDNs
+- Hostnames and ports
+- Shared environments
+- VPNs, Reverse Proxies
+- Security constraints
+
+---
+class: main-title, middle
+# Webpack[er]
+## Custom Flows
+Not everyone deploys with Capistrano or Heroku
+
+---
+
+# Webpack[er]
+## Custom Flows
+
+### Default
+- single process to serve Rails and JS code: slow to reload
+- requires ruby + node in the same runtime environment
+- still requires sprockets
+
+### Custom Flows (Jobandtalent situation)
+- Local development is not always a single app
+- Dockerized environments (local + cloud)
+- Continuous Integrations & Deployment
+- Staging (aka pre-production, homologation, QA)
+- Production (cluster, CDN, rollbacks)
+
+---
+class: main-title, middle
+# Webpack[er]
+## Webpack
+_+_ a Simple Rails helper
+
+---
+
+# Webpack[er]
+## Webpack
+_+_ a Simple Rails helper
+
+in `some_view.html.erb`:
+```ruby
+  <%= stylesheet_pack_tag 'application', media: 'all' %>
+  <%= javascript_pack_tag 'application' %>
+```
+
+`manifest.json`:
+```json
+{
+  "hmr": true,
+  "application.js": "http://localhost:3001/packs/application-0f7efb91e880cb66550c.js",
+  "clock.js": "http://localhost:3001/packs/clock-0f7efb91e880cb66550c.js",
+  "vendor-libs.js": "http://localhost:3001/packs/vendor-libs-8e6cfd9f599b53d6c0f3.chunk.js"
+}
+```
+
+---
+class: main-title, middle
+# Webpack[er]
+## Development Flow
+
+---
+
+# Webpack[er]
+## Development Flow
+
+### Two processes instead of `rails s`
+- `yarn server` & `rails s`
+
+### All JS code is in a single place:
+- `app/javascript/packs`
+- `app/javascript/styles`
+- `package.json` manage all JS dependencies
+
+### Hot reload
+- save a source file and the browser will update
+
+---
+
+# Webpack[er]
+## Development Flow
+
+### Tooling
+- `yarn eslint`
+- `yarn test`
+- `yarn server-for-tests` & `rails test` & `rails test/system`
+- `rubocop` :)
+
+---
+class: main-title, middle
+# Webpack[er]
+## CI
+Continuous Integration & Deployment
+
+---
+
+# Webpack[er]
+## CI
+
+### Developers hapinness
+- Fast, we love early feedback
+- Simple, we don't need more complicated things
+- Reliable, we deserve some peace of mind
+
+---
+
+# Webpack[er]
+## CI
+
+### Dockerized
+- An image for the Rails app, another for the JS app
+- Isolated from local environment
+- Repeatable
+
+### Fully automated
+- Building
+- Linting
+- Testing
+- Coverage
+- Static Code Analysis
+- Security Checks
+
+---
+
+# Webpack[er]
+## CI
+
+```terminal
+➜  .docker git:(master) ✗ ruby ci.rb
+Stop running containers
+
+Removing pregenerated assets (packs)
+
+Launch required services (postgres & selenium)
+Starting fichador-postgres ... done
+Starting selenium-server   ... done
+
+Build containers
+gateway uses an image, skipping
+Building mailcatcher
+Step 1/5 : FROM ruby:2.5.1-alpine3.7
+ ---> b620ae34414c
+
+```
+.
+.
+.
+
+---
+
+# Webpack[er]
+## CI
+
+```terminal
+Prepare & Run Tests
+
+ DB setup
+Database 'fichador_development' already exists
+Database 'fichador_test' already exists
+
+ JS dependencies
+yarn install v1.10.1
+[1/4] Resolving packages...
+success Already up-to-date.
+Done in 0.87s.
+
+ JS Transpiling
+yarn run v1.10.1
+$ NODE_PATH='./node_modules:../app/javascript' TARGET=production webpack
+Hash: 36b3c42ca664887db02e
+Version: webpack 4.21.0
+Time: 5271ms
+Built at: 10/25/2018 1:53:06 PM
+                                    Asset       Size  Chunks             Chunk Names
+vendor-libs-4c07f2d47bd0f5687328.chunk.js    200 KiB       0  [emitted]  vendor-libs
+     application.36b3c42ca664887db02e.css  118 bytes       1  [emitted]  application
+      application-eea323f3e5b09abdcc04.js   1.73 KiB       1  [emitted]  application
+           clock.36b3c42ca664887db02e.css  227 bytes       2  [emitted]  clock
+            clock-9b03f8dc545c2cb06eaf.js   3.59 KiB       2  [emitted]  clock
+ application.36b3c42ca664887db02e.css.map  189 bytes       1  [emitted]  application
+       clock.36b3c42ca664887db02e.css.map  207 bytes       2  [emitted]  clock
+                            manifest.json  474 bytes          [emitted]
+Entrypoint application = vendor-libs-4c07f2d47bd0f5687328.chunk.js application.36b3c42ca664887db02e.css application-eea323f3e5b09abdcc04.js application.36b3c42ca664887db02e.css.map
+Entrypoint clock = vendor-libs-4c07f2d47bd0f5687328.chunk.js clock.36b3c42ca664887db02e.css clock-9b03f8dc545c2cb06eaf.js clock.36b3c42ca664887db02e.css.map
+[./app/javascript/packs/application.js] 83 bytes {1} [built]
+[./app/javascript/packs/clock.jsx] 560 bytes {2} [built]
+[./app/javascript/styles/application.css.less] 39 bytes {1} [built]
+[./app/javascript/styles/clock.css.less] 39 bytes {2} [built]
+[./node_modules/webpack/buildin/harmony-module.js] (webpack)/buildin/harmony-module.js 573 bytes {0} [built]
+    + 14 hidden modules
+Child mini-css-extract-plugin node_modules/css-loader/index.js!node_modules/less-loader/dist/cjs.js??ref--7-2!app/javascript/styles/application.css.less:
+    Entrypoint mini-css-extract-plugin = *
+    [./node_modules/css-loader/index.js!./node_modules/less-loader/dist/cjs.js?!./app/javascript/styles/application.css.less] ./node_modules/css-loader!./node_modules/less-loader/dist/cjs.js??ref--7-2!./app/javascript/styles/application.css.less 222 bytes {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/index.js!node_modules/less-loader/dist/cjs.js??ref--7-2!app/javascript/styles/clock.css.less:
+    Entrypoint mini-css-extract-plugin = *
+    [./node_modules/css-loader/index.js!./node_modules/less-loader/dist/cjs.js?!./app/javascript/styles/clock.css.less] ./node_modules/css-loader!./node_modules/less-loader/dist/cjs.js??ref--7-2!./app/javascript/styles/clock.css.less 343 bytes {0} [built]
+        + 1 hidden module
+Done in 13.20s.
+```
+
+---
+
+# Webpack[er]
+## CI
+
+```terminal
+JS Code Formatting
+yarn run v1.10.1
+$ NODE_PATH='./node_modules:../app/javascript' eslint app/javascript --ext .js,.jsx --report-unused-disable-directives --max-warnings 0
+Done in 16.52s.
+
+
+CI results:
+ok - DB setup
+ok - JS dependencies
+ok - JS Transpiling
+ok - Rails App Tests
+ok - Rails Code Formatting
+ok - Ruby vulnerabilities Analysis
+ok - Static Code Analysis
+ok - JS tests
+ok - JS Code Formatting
+```
+
+…102 seconds later, Alright!
+
+```terminal
+➜  .docker git:(master) $ echo $?
+0
+```
+
+---
+class: main-title, middle
+# Webpack[er]
+## Release
+Optimized, Secure & Fast code
+
+---
+
+# Webpack[er]
+## Release
+
+```terminal
+➜  .docker git:(master) $ ruby release.rb
+Stop running containers
+
+Removing pregenerated assets (packs)
+
+Build webpack images
+Building fichador-webpack
+Step 1/11 : FROM node:10.12.0-alpine
+ ---> 7ca2f9cb5536
+Step 2/11 : MAINTAINER Jobandtalent Team <backend.team@jobandtalent.com>
+ ---> Using cache
+ ---> 711450bcf54a
+Step 3/11 : LABEL app="workers" stack.binary="node" stack.version="10.alpine"
+ ---> Using cache
+ ---> 151f35556441
+```
+.
+.
+.
+```terminal
+Step 16/16 : EXPOSE ${PORT}
+ ---> Running in e2dd3f6a955c
+Removing intermediate container e2dd3f6a955c
+ ---> 25dcd46fff30
+Successfully built 25dcd46fff30
+Successfully tagged docker_fichador-app:latest
+```
+---
+
+# Webpack[er]
+## Release
+
+```terminal
+➜  .docker git:(master) $ docker images
+REPOSITORY                          TAG                  SIZE
+docker_fichador-app                 latest               194MB
+docker_fichador-webpack             latest               362MB
+docker_fichador-webpack-installer   latest               362MB
+docker_gateway                      latest               57.7MB
+docker_mailcatcher                  latest               249MB
+node                                10.12.0-alpine       70.3MB
+nginx                               alpine-perl          52MB
+erlang                              21-alpine            72MB
+elixir                              1.7.3-alpine         80.8MB
+postgres                            10.5-alpine          71.6MB
+alpine                              3.7                  4.21MB
+swagger-builder                     latest               115MB
+ruby                                2.5.1-alpine3.7      55.5MB
+selenium/standalone-chrome          latest               824MB
+postgres                            9.6-alpine           37.7MB
+redis                               3-alpine             19.8MB
+```
+
+---
+class: main-title, middle
+# Webpack[er]
+## Thank you
+
+```ruby
+def (who = 'folks!')
+  put "see you soon, #{who}"
+end
+```
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    <script type="text/javascript">
+      var hljs = remark.highlighter.engine;
+    </script>
+    <script>
+      var slideshow = remark.create({
+        highlightStyle: 'monokai',
+        highlightLanguage: 'remark',
+      });
+    </script>
+  </body>
+</html>
